@@ -24,3 +24,6 @@ urlpatterns = [
     path('', include('report.urls')),
     path('month/', month),
 ]
+
+# обработчик
+handler404 = pageNotFound

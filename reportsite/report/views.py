@@ -1,10 +1,14 @@
-from django.http import HttpResponse
-from django.shortcuts import render
+from django.http import HttpResponse, HttpResponseNotFound, Http404
+from django.shortcuts import render, redirect
 
 
 def index(request):
     return HttpResponse("Страница приложения report")
 
 
-def month(request, month_id):
-    return HttpResponse(f"<h1>Месяцы</h1><p>{month_id}</p>")
+def month(request, monthid):
+    return HttpResponse(f"<h1>Месяцы</h1><p>{monthid}</p>")
+
+
+def pageNotFound(request, exception):
+    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
