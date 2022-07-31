@@ -3,21 +3,29 @@
 {% block content %}
 <h1>{{title}}</h1>
 
-<ul>
+<table>
+    <tr>
+        <th>Название</th>
+        <th>Год</th>
+        <th>Месяц</th>
+        <th>Fe</th>
+        <th>Si</th>
+        <th>Al</th>
+        <th>Ca</th>
+        <th>S</th>
+    </tr>
     {% for r in reports %}
-    <li>
-        <h2>{{ r.title }}</h2>
-        <p>{{r.report_year}}</p>
-        <p>{{r.component_Fe}}</p>
-        <p>{{r.component_Si}}</p>
-        <p>{{r.component_Al}}</p>
-        <p>{{r.component_Ca}}</p>
-        <p>{{r.component_S}}</p>
-        <p>{{r.report_year}}</p>
-        <p>{{r.report_month}}</p>
-        <hr>
-    </li>
+    <tr>
+        <td>{{ r.title }}</td>
+        <td>{{r.report_year}}</td>
+        <td>{{r.report_month}}</td>
+        <td>{{r.component_Fe}}</td>
+        <td>{{r.component_Si}}</td>
+        <td>{{r.component_Al}}</td>
+        <td>{{r.component_Ca}}</td>
+        <td>{{r.component_S}}</td>
+    </tr>
     {% endfor %}
-</ul>
+</table>
 
 {% endblock %}
