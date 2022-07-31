@@ -1,0 +1,22 @@
+{% extends 'report/base.html' %}
+
+{% block content %}
+<h1>{{title}}</h1>
+
+<ul>
+    {% for r in reports %}
+    <li>
+        <h2>{{ r.title }}</h2>
+        <p>{{r.report_year}}</p>
+        <p>{{r.component_Fe}}</p>
+        <p>{{r.component_Si}}</p>
+        <p>{{r.component_Al}}</p>
+        <p>{{r.component_Ca}}</p>
+        <p>{{r.component_S}}</p>
+        <p>{{r.report_year}}</p>
+        <hr>
+    </li>
+    {% endfor %}
+</ul>
+
+{% endblock %}
