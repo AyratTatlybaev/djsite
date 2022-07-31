@@ -5,8 +5,8 @@ from .models import *
 
 menu = ["О сайте", "Добавить отчёт", "Обратная связь", "Войти"]
 
-month_dict = {'1': 'Январь',
-              '2': 'Февраль',
+months = {1: 'Январь',
+        '2': 'Февраль',
               '3': 'Март',
               '4': 'Апрель',
               '5': 'Май',
@@ -18,9 +18,10 @@ month_dict = {'1': 'Январь',
               '11': 'Ноябрь',
               '12': 'Декабрь'}
 
-def index(request):
+
+def index(request, month_dict=months):
     reports = Report.objects.all()
-    return render(request, 'report/index.html', {'reports': reports, 'menu': menu, 'title': 'Главная страница'})
+    return render(request, 'report/index.html', {'month_dict': month_dict, 'reports': reports, 'menu': menu, 'title': 'Главная страница'})
 
 
 def about(request):
