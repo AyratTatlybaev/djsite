@@ -1,7 +1,7 @@
 {% extends 'report/base.html' %}
 
 {% block content %}
-<h1>{{title}}</h1>
+<h3>{{title}} - {{month_name}}</h3>
 
 <table>
     <tr>
@@ -18,12 +18,22 @@
     <tr>
         <td>{{ r.title }}</td>
         <td>{{r.report_year}}</td>
-        <td>{{r.report_month}}</td>
+        <td>{{month_name}}</td>
         <td>{{r.component_Fe}}</td>
         <td>{{r.component_Si}}</td>
         <td>{{r.component_Al}}</td>
         <td>{{r.component_Ca}}</td>
         <td>{{r.component_S}}</td>
+    </tr>
+    {% endfor %}
+     {% for l in list_agg %}
+    <tr>
+        <td>Среднее значение</td>
+        <td></td>
+        <td></td>
+        <td>{{ l.value_avg }}</td>
+        <td>{{ l.value_max }}</td>
+        <td>{{ l.value_min }}</td>
     </tr>
     {% endfor %}
 </table>

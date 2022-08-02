@@ -6,19 +6,21 @@
     <title>{{ title }}</title>
     <link type="text/css" href="{% static 'report/css/styles.css' %}" rel="stylesheet" />
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+	<link rel="shortcut icon" href="{% static 'report/images/main.ico' %}" type="image/x-icon"/>
 	<meta name="viewport" content="width=device-width, initial-scale=1.0">
-</head>s
+</head>
 <body>
 <table class="table-page" border=0 cellpadding="0" cellspacing="0">
 <tr><td valign=top>
 {% block mainmenu %}
 		<div class="header">
 			<ul id="mainmenu" class="mainmenu">
+				<li><a href="{% url 'home' %}">Главная</a></li>
 {% for m in menu %}
 	{% if not forloop.last %}
-			<li><a href="#">{{m.title}}</a></li>
+			<li><a href="{% url m.url_name %}">{{m.title}}</a></li>
 	{% else %}
-			<li class="last"><a href="#">{{m.title}}</a></li>
+			<li class="last"><a href="{% url m.url_name %}">{{m.title}}</a></li>
 	{% endif %}
 {% endfor %}
 			</ul>
@@ -32,11 +34,16 @@
 <!-- Sidebar слева -->
 	<td valign="top" class="left-chapters">
 	<ul id="leftchapters">
-		<li class="selected">Все категории</li>
-		<li><a href="#">Категория 1</a></li>
-		<li><a href="#">Категория 2</a></li>
-		<li><a href="#">Категория 3</a></li>
-	</ul>
+		{% if month_selected == 0 %}
+			<li class="selected">Все месяцы</li>
+		{% else %}
+			<li><a href="{% url 'home' %}">Все месяцы</a></li>
+		{% endif %}
+
+		{% for month, name in months_dict.items %}
+			<li><a href="{% url 'show_report' %}">{{name}}</a></li>
+		{% endfor %}
+	</ul>1
 </td>
 <!-- Конец Sidebar'а -->
 <td valign="top" class="content">

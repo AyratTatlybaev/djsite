@@ -22,7 +22,6 @@ from report.views import *
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('', include('report.urls')),
-    path('month/', month),
 ]
 
 # обработчик
