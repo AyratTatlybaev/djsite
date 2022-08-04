@@ -8,5 +8,5 @@ urlpatterns = [
     path('addpage/', addpage, name='add_page'),
     path('contact/', contact, name='contact'),
     path('login/', login, name='login'),
-    path('month/<int:month_id>/', show_report, name='show_report'),
+    path('month/<int:month_id>/', show_report, name='report'),
     ]

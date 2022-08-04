@@ -1,39 +1,42 @@
 {% extends 'report/base.html' %}
 
 {% block content %}
-<h3>{{title}} - {{month_name}}</h3>
+<h3>{{title}} {{month_name}}</h3>
 
-<table>
+<table style="width:50%">
     <tr>
         <th>Название</th>
-        <th>Год</th>
-        <th>Месяц</th>
         <th>Fe</th>
         <th>Si</th>
         <th>Al</th>
         <th>Ca</th>
         <th>S</th>
+        <th>Год</th>
+        <th>Месяц</th>
+        <th>Автор</th>
     </tr>
     {% for r in reports %}
     <tr>
         <td>{{ r.title }}</td>
-        <td>{{r.report_year}}</td>
-        <td>{{month_name}}</td>
-        <td>{{r.component_Fe}}</td>
-        <td>{{r.component_Si}}</td>
-        <td>{{r.component_Al}}</td>
-        <td>{{r.component_Ca}}</td>
-        <td>{{r.component_S}}</td>
+        <td>{{ r.component_Fe }}</td>
+        <td>{{ r.component_Si }}</td>
+        <td>{{ r.component_Al }}</td>
+        <td>{{ r.component_Ca }}</td>
+        <td>{{ r.component_S }}</td>
+        <td>{{ r.report_year }}</td>
+        <td>{{ r.report_month }}</td>
+        <td>{{ r.author_name }}</td>
     </tr>
     {% endfor %}
+
      {% for l in list_agg %}
     <tr>
-        <td>Среднее значение</td>
+        {% for elem, value in l.items %}
+            <td>{{ value }}</td>
+        {% endfor %}
         <td></td>
         <td></td>
-        <td>{{ l.value_avg }}</td>
-        <td>{{ l.value_max }}</td>
-        <td>{{ l.value_min }}</td>
+        <td></td>
     </tr>
     {% endfor %}
 </table>

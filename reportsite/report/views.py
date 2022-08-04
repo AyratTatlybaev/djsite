@@ -27,11 +27,12 @@ def index(request):
                    12: 'Декабрь'}
 
     reports = Report.objects.all()
-    context = {'months': months_dict,
+
+    context = {'months_dict': months_dict,
                'reports': reports,
                'menu': menu,
                'title': 'Главная страница',
-               'month_selected': 0,
+               'month_id': 0,
                }
     return render(request, 'report/index.html', context=context)
 
@@ -53,7 +54,7 @@ def login(request):
 
 
 def pageNotFound(request, exception):
-    return HttpResponseNotFound('<h1>Страница не найдена</h1>')
+    return HttpResponseNotFound('<h1>Отчёт не найден</h1>')
 
 
 def show_report(request, month_id):
@@ -78,17 +79,27 @@ def show_report(request, month_id):
     agg_al = {'name': 'component_Al'}
     agg_ca = {'name': 'component_Ca'}
     agg_s = {'name': 'component_S'}
+
+    agg_avg, agg_max, agg_min = {'name': 'Среднее значение'},\
+                                {'name': 'Максимальное значение'}, \
+                                {'name': 'Минимальное'}
+
+    # Список словарей с именами столбцов
+    list_agg_name = [agg_fe, agg_si, agg_al, agg_ca, agg_s]
     # Список словарей с результатами агрегаций
-    list_agg = [agg_fe, agg_si, agg_al, agg_ca, agg_s]
+    list_agg = [agg_avg, agg_max, agg_min]
 
     # проверка есть ли отчёты за месяц
     if len(reports) == 0:
         raise Http404()
     else:
-        # Среднее, максимальное, минимальное значение
-        agg_fe = reports.aggregate(value_avg=Avg('component_Fe'),
-                                   value_max=Max('component_Fe'),
-                                   value_min=Min('component_Fe'))
+        for agg in list_agg_name:
+            # Среднее значение по столбцам Fe, Si, Al, Ca, S
+            agg_avg.update(reports.aggregate(Avg(agg.get('name'))))
+            # Максимальное значение по столбцам Fe, Si, Al, Ca, S
+            agg_max.update(reports.aggregate(Max(agg.get('name'))))
+            # Минимальное значение по столбцам Fe, Si, Al, Ca, S
+            agg_min.update(reports.aggregate(Min(agg.get('name'))))
 
     context = {'months_dict': months_dict,
                'reports': reports,
@@ -96,6 +107,7 @@ def show_report(request, month_id):
                'title': 'Данные за месяц',
                'month_id': month_id,
                'month_name': months_dict[month_id],
+               'list_agg_name': list_agg_name,
                'list_agg': list_agg,
                }
     return render(request, 'report/index.html', context=context)

@@ -381,3 +381,9 @@ ul.lang-list li a:hover {color: #fdc073;}
     font-size: 16px;
 }
 
+table, th, td {
+    border: 1px solid black;
+    border-collapse: collapse;
+    text-align: center;
+    align-content: center;
+}
