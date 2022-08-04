@@ -2,6 +2,7 @@ from django.db.models import Avg, F, Max, Min
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
 
+from .forms import *
 from .models import *
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
@@ -42,7 +43,25 @@ def about(request):
 
 
 def addpage(request):
-    return HttpResponse("Добавление отчёта")
+    if request.method == 'POST':
+        # Форма с заполненными данными
+        form = AddReportForm(request.POST)
+        # Проверка - корректно ли заполнены данные
+        if form.is_valid():
+            try:
+                Report.objects.create(**form.cleaned_data)
+                return  redirect('home')
+            except:
+                form.add_error(None, 'Ошибка добавления поста ')
+    else:
+        # Формирование пустой формы
+        form = AddReportForm()
+
+    return render(request,
+                  'report/addpage.html',
+                  {'form': form,
+                   'title': "Добавление отчёта",
+                   'menu': menu})
 
 
 def contact(request):

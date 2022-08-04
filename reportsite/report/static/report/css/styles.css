@@ -387,3 +387,8 @@ table, th, td {
     text-align: center;
     align-content: center;
 }
+
+form {
+    text-align: left;
+    align-content: left;
+}
