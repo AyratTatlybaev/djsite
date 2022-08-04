@@ -7,8 +7,7 @@ from .models import *
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить отчёт", 'url_name': 'add_page'},
-        {'title': "Обратная связь", 'url_name': 'contact'},
-        {'title': "Войти", 'url_name': 'login'},
+       {'title': "Войти", 'url_name': 'login'},
         ]
 
 
@@ -48,11 +47,8 @@ def addpage(request):
         form = AddReportForm(request.POST)
         # Проверка - корректно ли заполнены данные
         if form.is_valid():
-            try:
-                Report.objects.create(**form.cleaned_data)
-                return  redirect('home')
-            except:
-                form.add_error(None, 'Ошибка добавления поста ')
+            form.save()
+            return  redirect('home')
     else:
         # Формирование пустой формы
         form = AddReportForm()
