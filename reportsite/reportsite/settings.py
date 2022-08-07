@@ -37,7 +37,8 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    'report.apps.ReportConfig'
+    'report.apps.ReportConfig',
+    'import_export'
 ]
 
 MIDDLEWARE = [
@@ -125,3 +126,5 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 # список дополнительных (нестандартных) путей к статическим файлам
 # используемых для сбора и для режима отладки
 STATICFILES_DIRS = []
+
+IMPORT_EXPORT_USE_TRANSACTIONS = True

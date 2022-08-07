@@ -1,6 +1,10 @@
+import csv
+
 from django.db.models import Avg, F, Max, Min
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
+from tablib import Dataset
+import pandas as pd
 
 from .forms import *
 from .models import *
@@ -45,10 +49,18 @@ def addpage(request):
     if request.method == 'POST':
         # Форма с заполненными данными
         form = AddReportForm(request.POST)
+
+        #new_data = request.FILES['myfile']
+        #file_import = pd.read_excel(new_data)
+        #form.fields["title"].initial = str(file_import['title'][0])
+
+        #print(form.instance.title)
+
         # Проверка - корректно ли заполнены данные
         if form.is_valid():
             form.save()
-            return  redirect('home')
+            return redirect('home')
+
     else:
         # Формирование пустой формы
         form = AddReportForm()
@@ -126,3 +138,5 @@ def show_report(request, month_id):
                'list_agg': list_agg,
                }
     return render(request, 'report/index.html', context=context)
+
+

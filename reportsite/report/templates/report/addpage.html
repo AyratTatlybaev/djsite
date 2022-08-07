@@ -3,17 +3,18 @@
 {% block content %}
 <h1>{{title}}</h1>
 
-<form action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
+<form id="forms" action="{% url 'add_page' %}" method="post" enctype="multipart/form-data">
     {% csrf_token %}
     <div class="form-error">{{ form.non_field_errors }}</div>
 
 {% for f in form %}
-    <p><label class="form-label" for="{{ f.id_for_label }}">{{f.label}}: </label>{{ f }}</p>
+    <p align="left"><label class="form-label">{{f.label}}: </label>{{ f }}</p>
     <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
 
-    <button type="submit">Добавить</button>
     <button type="reset">Очистить</button>
+    <input  form="forms" type="file" name="myfile">
+    <button type="submit">Upload</button>
 </form>
 
 {% endblock %}
