@@ -18,7 +18,7 @@ class Report(models.Model):
     report_create = models.DateTimeField(auto_now_add=True, verbose_name="Время создания")
     report_update = models.DateTimeField(auto_now=True, verbose_name="Время изменения")
     # Имя создателя отчёта
-    author_name = models.CharField(max_length=255, default='', verbose_name="Автор")
+    author_name = models.CharField(max_length=255, default='', verbose_name="Автор", )
 
     def __str__(self):
         return self.title

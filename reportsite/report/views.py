@@ -1,8 +1,13 @@
 import csv
 
+from django.contrib.auth import logout, login
+from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
+from django.contrib.auth.views import LoginView
 from django.db.models import Avg, F, Max, Min
 from django.http import HttpResponse, HttpResponseNotFound, Http404
 from django.shortcuts import render, redirect
+from django.urls import reverse_lazy
+from django.views.generic import CreateView
 from tablib import Dataset
 import pandas as pd
 
@@ -11,7 +16,7 @@ from .models import *
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить отчёт", 'url_name': 'add_page'},
-       {'title': "Войти", 'url_name': 'login'},
+       #{'title': "Войти", 'url_name': 'login'},
         ]
 
 
@@ -51,8 +56,8 @@ def addpage(request):
         form = AddReportForm(request.POST)
 
         #new_data = request.FILES['myfile']
-        #file_import = pd.read_excel(new_data)
         #form.fields["title"].initial = str(file_import['title'][0])
+
 
         #print(form.instance.title)
 
@@ -64,6 +69,7 @@ def addpage(request):
     else:
         # Формирование пустой формы
         form = AddReportForm()
+        form.fields["author_name"].initial = str(request.user.username)
 
     return render(request,
                   'report/addpage.html',
@@ -72,12 +78,12 @@ def addpage(request):
                    'menu': menu})
 
 
-def contact(request):
-    return HttpResponse("Обратная связь")
+# def contact(request):
+#     return HttpResponse("Обратная связь")
 
 
-def login(request):
-    return HttpResponse("Авторизация")
+# def login(request):
+#     return HttpResponse("Авторизация")
 
 
 def pageNotFound(request, exception):
@@ -140,3 +146,35 @@ def show_report(request, month_id):
     return render(request, 'report/index.html', context=context)
 
 
+class RegisterUser(CreateView):
+    form_class = RegisterUserForm
+    template_name = 'report/register.html'
+    success_url = reverse_lazy('')
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(list(context.items())) # + list(c_def.items()))
+
+    # вызывается при успешной проверке формы регистрации
+    def form_valid(self, form):
+        user = form.save()
+        login(self.request, user)
+        return redirect('home')
+
+
+class LoginUser(LoginView):
+    form_class = LoginUserForm
+    template_name = 'report/login.html'
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super().get_context_data(**kwargs)
+        return dict(list(context.items()))
+
+    # вызов функции если логин и пароль верны
+    def get_success_url(self):
+        return reverse_lazy('home')
+
+
+def logout_user(request):
+    logout(request)
+    return redirect('login')

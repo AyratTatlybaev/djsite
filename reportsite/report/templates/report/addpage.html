@@ -8,13 +8,12 @@
     <div class="form-error">{{ form.non_field_errors }}</div>
 
 {% for f in form %}
-    <p align="left"><label class="form-label">{{f.label}}: </label>{{ f }}</p>
+    <p align="left"><label class="form-label-2">{{f.label}}: </label>{{ f }}</p>
     <div class="form-error">{{ f.errors }}</div>
 {% endfor %}
 
     <button type="reset">Очистить</button>
-    <input  form="forms" type="file" name="myfile">
-    <button type="submit">Upload</button>
+    <button type="submit">Добавить</button>
 </form>
 
 {% endblock %}
