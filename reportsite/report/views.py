@@ -1,4 +1,3 @@
-import csv
 
 from django.contrib.auth import logout, login
 from django.contrib.auth.forms import UserCreationForm, AuthenticationForm
@@ -10,13 +9,13 @@ from django.urls import reverse_lazy
 from django.views.generic import CreateView
 from tablib import Dataset
 import pandas as pd
+from django.contrib import admin
 
 from .forms import *
 from .models import *
 
 menu = [{'title': "О сайте", 'url_name': 'about'},
         {'title': "Добавить отчёт", 'url_name': 'add_page'},
-       #{'title': "Войти", 'url_name': 'login'},
         ]
 
 
@@ -55,7 +54,8 @@ def addpage(request):
         # Форма с заполненными данными
         form = AddReportForm(request.POST)
 
-        #new_data = request.FILES['myfile']
+        #new_data = request.FILES['myFile']
+        #file_import = pd.read_excel(new_data)
         #form.fields["title"].initial = str(file_import['title'][0])
 
 
@@ -71,6 +71,15 @@ def addpage(request):
         form = AddReportForm()
         form.fields["author_name"].initial = str(request.user.username)
 
+        try:
+            new_data = request.FILES['myFile']
+            file_import = pd.read_excel(new_data)
+            form.fields["title"].initial = str(file_import['title'][0])
+        finally:
+            pass
+
+
+
     return render(request,
                   'report/addpage.html',
                   {'form': form,
@@ -80,7 +89,6 @@ def addpage(request):
 
 # def contact(request):
 #     return HttpResponse("Обратная связь")
-
 
 # def login(request):
 #     return HttpResponse("Авторизация")
